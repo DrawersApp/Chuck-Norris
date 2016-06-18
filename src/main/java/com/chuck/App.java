@@ -1,7 +1,6 @@
 package com.chuck;
 
 import com.chuck.models.entities.Joke;
-import com.chuck.models.listener.ChuckRegistrationMessageListener;
 import com.chuck.models.rest.RestDataSource;
 import com.drawers.dao.ChatConstant;
 import com.drawers.dao.MqttChatMessage;
@@ -26,12 +25,14 @@ public class App implements DrawersMessageListener {
     private static String clientId;
     private static String password;
     private static String adminEmail;
+    private static MqttProviderManager mqttProviderManager;
 
     public static Map<String, User> users = new ConcurrentHashMap<>();
 
     public App(String clientId, String password) {
         bot = new DrawersBot(clientId, password, this);
-        MqttProviderManager.getInstanceFor(bot).addMessageListener(new ChuckRegistrationMessageListener(bot, clientId));
+        mqttProviderManager = MqttProviderManager.getInstanceFor(bot);
+        mqttProviderManager.setClientIdAndName(clientId, "chuck");
     }
 
     public static void main(String[] args) {
@@ -56,9 +57,13 @@ public class App implements DrawersMessageListener {
     }
 
     private void startBot() {
+        ChuckMessageListener chuckMessageListener = new ChuckMessageListener(bot, clientId);
+        mqttProviderManager.addMessageListener(chuckMessageListener);
+        mqttProviderManager.addGroupMessageListener(chuckMessageListener);
+
         bot.start();
 
-        timer.schedule(hourlyTask, 0l, 1000 * 10);
+        timer.schedule(hourlyTask, 0l, 1000 * 60 * 60 * 24);
 
 /*
         try {
@@ -73,7 +78,6 @@ public class App implements DrawersMessageListener {
     TimerTask hourlyTask = new TimerTask() {
         @Override
         public void run() {
-            System.out.println(Thread.currentThread().getName() + " sending joke");
             client.sendJoke();
         }
     };

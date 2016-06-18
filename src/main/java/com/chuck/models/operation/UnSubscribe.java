@@ -5,12 +5,10 @@ import com.chuck.models.listener.UserOperation;
 import com.chuck.models.response.UnSubscribeResponse;
 import org.drawers.bot.lib.DrawersBotString;
 import org.drawers.bot.lib.Response;
-import org.junit.runner.notification.RunListener;
 
 /**
  * Created by nishant.pathak on 23/05/16.
  */
-@RunListener.ThreadSafe
 public class UnSubscribe implements UserOperation {
     @Override
     public Response operateInternal(DrawersBotString drawersBotString) {

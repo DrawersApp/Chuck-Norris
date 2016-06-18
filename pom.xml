@@ -45,7 +45,7 @@
     <dependency>
       <groupId>com.github.DrawersApp</groupId>
       <artifactId>drawers-java-sdk</artifactId>
-      <version>v1.9.4</version>
+      <version>v2.0.2</version>
     </dependency>
     <dependency>
       <groupId>io.reactivex</groupId>
