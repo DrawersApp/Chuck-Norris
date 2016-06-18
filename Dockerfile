@@ -1,4 +1,4 @@
-M java:8 
+FROM java:8 
 
 # Install maven
 RUN apt-get update
