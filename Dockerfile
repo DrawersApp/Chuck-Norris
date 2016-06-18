@@ -15,5 +15,4 @@ RUN ["mvn", "verify"]
 ADD src /code/src
 RUN ["mvn", "package"]
 
-ENTRYPOINT ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/chuck-1.0-SNAPSHOT-fat.jar"]
-
+ENTRYPOINT ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/Chuck-Norris-1.0-SNAPSHOT-fat.jar"]
